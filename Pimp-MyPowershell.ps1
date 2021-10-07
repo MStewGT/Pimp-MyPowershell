@@ -12,6 +12,11 @@ Install-Module -Name oh-my-posh -Scope CurrentUser -Force -AllowClobber
 Install-Module -Name Terminal-Icons -Scope CurrentUser -Force -AllowClobber
 Write-Host "Module installation complete"
 
+Write-Host "Downloading Color Tool"
+Invoke-WebRequest -Uri "https://github.com/microsoft/terminal/releases/download/1904.29002/ColorTool.zip" -OutFile ".\ColorTool.zip"
+Expand-Archive -Path ".\ColorTool.zip" -DestinationPath ".\"
+Write-Host "Color Tool setup complete"
+
 Write-Host "Building Profile"
 $profileContent = @"
 Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser
@@ -19,6 +24,7 @@ Import-Module posh-git
 Import-Module oh-my-posh
 Import-Module Terminal-Icons
 Set-PoshPrompt -Theme $poshTheme
+$PSScriptRoot\ColorTool.exe -q solarized_dark.itermcolors
 "@
 
 Set-Content $PROFILE $profileContent
